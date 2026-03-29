@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../../data/repositories/artists/artist_repository.dart';
 import 'view_model/artist_view_model.dart';
-import '../../states/player_state.dart';
 import 'widgets/artist_content.dart';
 
 class ArtistScreen extends StatelessWidget {
@@ -12,10 +11,8 @@ class ArtistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ArtistViewModel(
-        playerState: context.read<PlayerState>(),
-        artistRepository: context.read<ArtistRepository>(),
-      ),
+      create: (context) =>
+          ArtistViewModel(artistRepository: context.read<ArtistRepository>()),
       child: ArtistContent(),
     );
   }

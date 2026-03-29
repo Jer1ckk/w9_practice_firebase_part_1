@@ -10,9 +10,11 @@ class MusicService {
 
   MusicService({required this.artistRepository, required this.songRepository});
 
-  Future<List<SongDetail>> fetchSongDetails() async {
-    List<Song> songs = await songRepository.fetchSongs();
-    List<Artist> artists = await artistRepository.fetchArtists();
+  Future<List<SongDetail>> fetchSongDetails({bool forceFetch = false}) async {
+    List<Song> songs = await songRepository.getSongs(forceFetch: forceFetch);
+    List<Artist> artists = await artistRepository.getArtists(
+      forceFetch: forceFetch,
+    );
 
     Map<String, Artist> mapArtist = {};
     for (Artist artist in artists) {
@@ -25,5 +27,4 @@ class MusicService {
         )
         .toList();
   }
-
 }

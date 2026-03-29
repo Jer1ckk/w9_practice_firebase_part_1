@@ -11,8 +11,20 @@ class SongRepositoryFirebase extends SongRepository {
     'g2-the-best-76f22-default-rtdb.asia-southeast1.firebasedatabase.app',
     '/songs.json',
   );
+  List<Song>? _cachedSong;
 
+  @override
+  Future<List<Song>> getSongs({bool forceFetch = false}) async {
+    if (!forceFetch && _cachedSong != null) {
+      return _cachedSong!;
+    }
 
+    final List<Song> songs = await fetchSongs();
+    _cachedSong = songs;
+    print("fetch Songs from database");
+
+    return songs;
+  }
 
   @override
   Future<List<Song>> fetchSongs() async {

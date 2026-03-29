@@ -10,6 +10,20 @@ class ArtistRepositoryFirebase extends ArtistRepository {
     '/artists.json',
   );
 
+  List<Artist>? _cachedArtist;
+
+  @override
+  Future<List<Artist>> getArtists({bool forceFetch = false}) async {
+    if (!forceFetch && _cachedArtist != null) {
+      return _cachedArtist!;
+    }
+
+    final List<Artist> artists = await fetchArtists();
+    _cachedArtist = artists;
+    print("fetch artist from database");
+    return artists;
+  }
+
   @override
   Future<List<Artist>> fetchArtists() async {
     final http.Response response = await http.get(artistUri);

@@ -28,14 +28,16 @@ class LibraryViewModel extends ChangeNotifier {
     fetchSong();
   }
 
-  void fetchSong() async {
+  void fetchSong({bool forceFetch = false}) async {
     // 1- Loading state
     songsValue = AsyncValue.loading();
     notifyListeners();
 
     try {
       // 2- Fetch is successfull
-      List<SongDetail> songs = await musicService.fetchSongDetails();
+      List<SongDetail> songs = await musicService.fetchSongDetails(
+        forceFetch: forceFetch,
+      );
       songsValue = AsyncValue.success(songs);
     } catch (e) {
       // 3- Fetch is unsucessfull
