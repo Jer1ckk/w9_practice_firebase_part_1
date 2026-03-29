@@ -18,12 +18,16 @@ class LibraryContent extends StatelessWidget {
 
     Widget content;
     switch (asyncValue.state) {
-      
       case AsyncValueState.loading:
         content = Center(child: CircularProgressIndicator());
         break;
       case AsyncValueState.error:
-        content = Center(child: Text('error = ${asyncValue.error!}', style: TextStyle(color: Colors.red),));
+        content = Center(
+          child: Text(
+            'error = ${asyncValue.error!}',
+            style: TextStyle(color: Colors.red),
+          ),
+        );
 
       case AsyncValueState.success:
         List<SongDetail> songs = asyncValue.data!;
@@ -34,6 +38,12 @@ class LibraryContent extends StatelessWidget {
             isPlaying: mv.isSongPlaying(songs[index].song),
             onTap: () {
               mv.start(songs[index].song);
+            },
+            onFavoriteTap: () {
+              mv.incrementLike(
+                songs[index].song.id,
+                songs[index].song.likesCount,
+              );
             },
           ),
         );

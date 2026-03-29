@@ -7,11 +7,13 @@ class SongTile extends StatelessWidget {
     required this.song,
     required this.isPlaying,
     required this.onTap,
+    required this.onFavoriteTap,
   });
 
   final SongDetail song;
   final bool isPlaying;
   final VoidCallback onTap;
+  final VoidCallback onFavoriteTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +39,27 @@ class SongTile extends StatelessWidget {
             spacing: 15,
             children: [
               Text('${song.song.duration.inMinutes} mins'),
+              Text("${song.song.likesCount.toString()} likes"),
               Text(song.artist.name),
-              Text(song.artist.name)
+              Text(song.artist.genre),
             ],
           ),
-          trailing: Text(
-            isPlaying ? "Playing" : "",
-            style: TextStyle(color: Colors.amber),
+          trailing: SizedBox(
+            width: 110,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  isPlaying ? "Playing" : "",
+                  style: TextStyle(color: Colors.amber),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: onFavoriteTap,
+                  child: Icon(Icons.favorite, color: Colors.red),
+                ),
+              ],
+            ),
           ),
         ),
       ),
